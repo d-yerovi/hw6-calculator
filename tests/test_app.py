@@ -5,7 +5,8 @@ def test_app_start_exit_command(capfd, monkeypatch):
     """Test that the REPL exits correctly on 'exit' command."""
     # Simulate user entering 'exit'
     monkeypatch.setattr('builtins.input', lambda _: 'exit')
-    App.start()
+    app = App('plugins')  # Create an instance of the App class
+    app.start()  # Call the start method on the instance
     out, err = capfd.readouterr()
 
     # Check that the initial greeting is printed and the REPL exits gracefully
@@ -17,7 +18,8 @@ def test_app_start_unknown_command(capfd, monkeypatch):
     # Simulate user entering an unknown command followed by 'exit'
     inputs = iter(['unknown_command', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-    App.start()
+    app = App('plugins')  # Create an instance of the App class
+    app.start()  # Call the start method on the instance
     out, err = capfd.readouterr()
 
     # Check that the REPL responds to an unknown command and then exits after 'exit' command
