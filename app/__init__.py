@@ -1,19 +1,14 @@
-from calculator.operations import add, subtract, multiply, divide
+# app.py
+from app.plugin_loader import load_plugins
 
 class App:
-    commands = {
-        "add": "Add two numbers",
-        "subtract": "Subtract two numbers",
-        "multiply": "Multiply two numbers",
-        "divide": "Divide two numbers",
-        "exit": "Exit the application",
-        "menu": "Display available commands"
-    }
+    def __init__(self, plugin_folder):
+        self.plugins = load_plugins(plugin_folder)
+        self.commands = {plugin.name: plugin.description for plugin in self.plugins}
 
-    @staticmethod
-    def start() -> None:
+    def start(self):
         print("Hello World. Type 'exit' to exit.")
-        App.display_menu()
+        self.display_menu()
 
         while True:
             user_input = input(">>> ")
@@ -21,43 +16,21 @@ class App:
                 print("Exiting...")
                 break
             elif user_input.lower() == "menu":
-                App.display_menu()
-            elif user_input.startswith("add"):
-                _, num1, num2 = user_input.split()
-                try:
-                    result = add(float(num1),float(num2)) 
-                    print(f"Result: {result}")
-                except ValueError:
-                    print("Invalid input. Please enter numbers.")
-            elif user_input.startswith("subtract"):
-                _, num1, num2 = user_input.split()
-                try:
-                    result = subtract(float(num1),float(num2)) 
-                    print(f"Result: {result}")
-                except ValueError:
-                    print("Invalid input. Please enter numbers.")
-            elif user_input.startswith("multiply"):
-                _, num1, num2 = user_input.split()
-                try:
-                    result = multiply(float(num1),float(num2)) 
-                    print(f"Result: {result}")
-                except ValueError:
-                    print("Invalid input. Please enter numbers.")
-            elif user_input.startswith("divide"):
-                _, num1, num2 = user_input.split()
-                try:
-                    if float(num2) != 0:
-                        result = divide(float(num1),float(num2)) 
-                        print(f"Result: {result}")
-                    else:
-                        print("Error: Division by zero is not allowed.")
-                except ValueError:
-                    print("Invalid input. Please enter numbers.")
+                self.display_menu()
             else:
-                print("Unknown command. Type 'menu' to see available commands.")
+                for plugin in self.plugins:
+                    if user_input.startswith(plugin.name):
+                        _, num1, num2 = user_input.split()
+                        try:
+                            result = plugin.execute(float(num1), float(num2))
+                            print(f"Result: {result}")
+                        except ValueError as e:
+                            print(f"Error: {e}")
+                        break
+                else:
+                    print("Unknown command. Type 'menu' to see available commands.")
 
-    @staticmethod
-    def display_menu() -> None:
+    def display_menu(self):
         print("Available commands:")
-        for command, description in App.commands.items():
+        for command, description in self.commands.items():
             print(f"{command}: {description}")

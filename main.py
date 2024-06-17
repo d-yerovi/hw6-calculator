@@ -37,4 +37,5 @@ def main():
 
     
 if __name__ == "__main__":
-    app = App.start()
+    app = App('plugins')
+    app.start()
