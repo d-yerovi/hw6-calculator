@@ -1,7 +1,10 @@
-import pytest
+'''
+This module contains tests for operations and division test.
+'''
 from decimal import Decimal
+import pytest
 from calculator.calculation import Calculation
-from calculator.operations import add, subtract, multiply, divide
+from calculator.operations import divide #,add, subtract, multiply
 
 
 def test_operation(a, b, operation, expected):
