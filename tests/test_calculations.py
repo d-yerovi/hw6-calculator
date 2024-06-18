@@ -66,7 +66,7 @@ def test_find_by_operation(setup_calculations):
     # Find all calculations with the 'add' operation.
     add_operations = Calculations.find_by_operation("add")
     # Assert that exactly one calculation with the 'add' operation was found.
-    assert len(add_operations) == 1, "Did not find the correct number of calculations with add operation"
+    assert len(add_operations) == 1, "Did not find the correct # of calculations with add operation"
     # Find all calculations with the 'subtract' operation.
     subtract_operations = Calculations.find_by_operation("subtract")
     # Assert that exactly one calculation with the 'subtract' operation was found.
