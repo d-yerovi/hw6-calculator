@@ -3,6 +3,7 @@ import os
 import importlib.util
 
 def load_plugins(plugin_folder):
+    plugin_folder = os.path.join(os.path.dirname(__file__), 'plugins')
     plugins = []
     for file in os.listdir(plugin_folder):
         if file.endswith(".py"):
