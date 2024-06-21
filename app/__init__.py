@@ -1,5 +1,6 @@
 # app.py
 from app.plugin_loader import load_plugins
+import multiprocessing
 
 class App:
     def __init__(self, plugin_folder):
@@ -21,14 +22,18 @@ class App:
                 for plugin in self.plugins:
                     if user_input.startswith(plugin.name):
                         _, num1, num2 = user_input.split()
-                        try:
-                            result = plugin.execute(float(num1), float(num2))
-                            print(f"Result: {result}")
-                        except ValueError as e:
-                            print(f"Error: {e}")
+                        p = multiprocessing.Process(target=self.execute_plugin, args=(plugin, float(num1), float(num2)))
+                        p.start()
                         break
                 else:
                     print("Unknown command. Type 'menu' to see available commands.")
+
+    def execute_plugin(self, plugin, num1, num2):
+        try:
+            result = plugin.execute(num1, num2)
+            print(f"Result: {result}")
+        except ValueError as e:
+            print(f"Error: {e}")
 
     def display_menu(self):
         print("Available commands:")
