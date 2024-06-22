@@ -38,14 +38,14 @@ class App:
         self.command_handler = CommandHandler(self)
 
     def configure_logging(self):
-        logging_conf_path = 'logging. conf'
+        logging_conf_path = 'logging.conf'
         if os.path.exists(logging_conf_path):
             logging.config.fileConfig(logging_conf_path)
         else:
-            logging.basicConfig(level=logging.INFO)
+            logging.basicConfig(filename='app.log', level=logging.INFO)
             logging.info('Logging configured')
+            logging.info('App started')
     
-
     def load_environment_variables(self):
         settings = {}
         # Load environment variables from the operating system
