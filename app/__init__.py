@@ -23,7 +23,7 @@ class CommandHandler:
                 print(f"Plugin {command} not found")
         else:
             logging.warning(f"Unknown command: {command}")
-            print(f"Unknown command: {command}. Type 'enu' to see available commands.")
+            print(f"Unknown command: {command}. Type 'menu' to see available commands.")
 
 
 class App:
@@ -51,14 +51,9 @@ class App:
         # Load environment variables from the operating system
         settings['DEBUG'] = os.environ.get('DEBUG', False)
         settings['PLUGIN_DIR'] = os.environ.get('PLUGIN_DIR', 'plugins')
-        # Load environment variables from a configuration file (e.g. .env)
-        try:
-            with open('.env', 'r') as f:
-                for line in f:
-                    key, value = line.strip().split('=')
-                    settings[key] = value
-        except FileNotFoundError:
-            pass
+        # Load environment variables from the .env file
+        load_dotenv()
+        settings['ENVIRONMENT'] = os.environ.get('ENVIRONMENT', 'PRODUCTION')
         return settings
 
     def start(self):
@@ -89,7 +84,7 @@ class App:
                         logger.info(f"Executing plugin {plugin.name} with arguments {num1} and {num2}")
                         break
                 else:
-                    logger.warning("Unknown command. Type 'enu' to see available commands.")
+                    logger.warning("Unknown command. Type 'menu' to see available commands.")
                     print("Unknown command. Type 'enu' to see available commands.")
                 '''
     def execute_plugin(self, plugin, num1, num2):

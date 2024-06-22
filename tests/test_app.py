@@ -29,4 +29,4 @@ def test_app_start_unknown_command(capfd, monkeypatch):
     # Check that the REPL responds to an unknown command and then exits after 'exit' command
     assert "Hello World. Type 'exit' to exit." in out
     assert "Available commands:" in out
-    assert "Unknown command: unknown_command. Type 'enu' to see available commands." in out
+    assert "Unknown command: unknown_command. Type 'menu' to see available commands." in out
